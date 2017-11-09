@@ -1,0 +1,32 @@
+{
+  "name": "video_catalog",
+  "version": "1.0.0",
+  "description": "video catalog app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-otalabi/video_catalog.git"
+  },
+  "author": "seyi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-otalabi/video_catalog/issues"
+  },
+  "homepage": "https://github.com/andela-otalabi/video_catalog#readme",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.17.2",
+    "express": "^4.16.2",
+    "method-override": "^2.3.8",
+    "pg": "^6.4.2",
+    "pg-promise": "^7.3.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.4.1",
+    "should": "^11.2.1"
+  }
+}

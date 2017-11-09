@@ -1,0 +1,39 @@
+<div ng-init="getUserInventory()">
+  <div>
+    <p>Name: {{userDetails.username}}</p>
+    <p>Coins: {{userDetails.balance}}</p>
+  </div>
+  <div ng-if="userInventory['bread'] > 0">
+    <p>Bread, {{userInventory.bread}}</p>
+    <button type="submit" id="submit" ng-click="auctionItem('bread')">Auction</button>
+  </div>
+  <div ng-if="userInventory['carrot'] > 0">
+    <p>Carrot, {{userInventory.carrot}}</p>
+    <button type="submit" id="submit" ng-click="auctionItem('carrot')">Auction</button>
+  </div>
+  <div ng-if="userInventory['diamond'] > 0">
+    <p>Diamond, {{userInventory.diamond}}</p>
+    <button type="submit" id="submit" ng-click="auctionItem('diamond')">Auction</button>
+  </div>
+
+  <div ng-if='startAuction'>
+    <p>yippe start auction</p>
+    <p>Seller Name: {{userDetails.username}}</p>
+    <p>Item Name: {{auctionDetails.name}}</p>
+    <p>Quantity: {{auctionDetails.quantity}}</p>
+    <p ng-if='initialBid'>Minimum Bid: {{auctionDetails.minimumBid}}</p>
+    <p ng-if='winningBid'>Winning Bid: {{auctionDetails.winningBid}}</p>
+    <form>
+      <label class="control-label">Your Bid:</label>
+      <div class="controls">
+        <input id="number" type="number" ng-model="userBid">{{userBid}}
+        <button type="button" class="btn btn-default" ng-click="placeBid()">Place Bid</button>
+      </div>
+    </form>
+  </div>
+  <div ng-if='!startAuction'>
+    <p>no current auction</p>
+  </div>
+
+</div>
+

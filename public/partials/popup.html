@@ -1,0 +1,23 @@
+<div>
+  <div class="modal-header">
+    <h3>Test popup</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <div  class="control-group">
+        <label class="control-label" for="quantityControl">Quantity:</label>
+        <div class="controls">
+          <input type="text" placeholder="quantity" ng-model="auctionDialog.quantity">
+        </div>
+        <label class="control-label" for="bidControl">Minimum Bid:</label>
+        <div class="controls">
+          <input type="text" placeholder="minimum bid" ng-model="auctionDialog.minimumBid">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>
+</div>
