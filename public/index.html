@@ -11,7 +11,22 @@
 
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script type="text/javascript" src="bower_components/firebase/firebase.js"></script>
         <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+        <script type="text/javascript" src="bower_components/angularfire/dist/angularfire.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+        <script>
+        // Initialize Firebase
+            var config = {
+              apiKey: "AIzaSyDMLvCb-805LPvNIpZSi6lvM-hzbr6zr1A",
+              authDomain: "auction-game-e0f1e.firebaseapp.com",
+              databaseURL: "https://auction-game-e0f1e.firebaseio.com",
+              projectId: "auction-game-e0f1e",
+              storageBucket: "",
+              messagingSenderId: "854192805459"
+            };
+            firebase.initializeApp(config);
+        </script>
         <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
         <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.js"></script>
         <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>

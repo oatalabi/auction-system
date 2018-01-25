@@ -15,21 +15,41 @@
     <p>Diamond, {{userInventory.diamond}}</p>
     <button type="submit" id="submit" ng-click="auctionItem('diamond')">Auction</button>
   </div>
+  <div> SELL: {{currentBid.sellerId}}</div>
+  <div> ID: {{userDetails.id}}</div>
+  <div ng-if='currentBid && currentBid.sellerId !== userDetails.id'>
+    <p> current bid here</p>
+    <p>Seller Name: {{currentBid.sellername}}</p>
+    <p>Item Name: {{currentBid.name}}</p>
+    <p>Quantity: {{currentBid.quantity}}</p>
+    <p ng-if='currentBid.winningBid '>Minimum Bid: {{currentBid.minimumBid}}</p>
+    <p ng-if='currentBid.winningBid > currentBid.minimumBid'>Winning Bid: {{currentBid.winningBid}}</p>
+    <form ng-submit="placeBid(userBid)">
+      <input type="number" name="userBid" ng-model="userBid">
+      <input type="submit" value="Place Bid">
+    </form>
+  </div>
+
+  <div ng-if='currentBid && currentBid.sellerId === userDetails.id'>
+    <p>Your bid is active and the current winning bid is {{currentBid.winningBid || currentBid.minimumBid}}</p>
+
+  </div>
 
   <div ng-if='startAuction'>
     <p>yippe start auction</p>
     <p>Seller Name: {{userDetails.username}}</p>
     <p>Item Name: {{auctionDetails.name}}</p>
     <p>Quantity: {{auctionDetails.quantity}}</p>
-    <p ng-if='initialBid'>Minimum Bid: {{auctionDetails.minimumBid}}</p>
+    <p ng-if='initialBid'>Minimum Bid: {{auctionDetails.minimumBid}}</p>{{minBid}}
     <p ng-if='winningBid'>Winning Bid: {{auctionDetails.winningBid}}</p>
-    <form>
-      <label class="control-label">Your Bid:</label>
-      <div class="controls">
-        <input id="number" type="number" ng-model="userBid">{{userBid}}
-        <button type="button" class="btn btn-default" ng-click="placeBid()">Place Bid</button>
-      </div>
+    <p ng-if='maxBid'>max Bid: {{maxBid}}</p>
+
+
+    <form ng-submit="placeBid(userBid)">
+      <input type="number" name="userBid" ng-model="userBid">
+      <input type="submit" value="Place Bid">
     </form>
+
   </div>
   <div ng-if='!startAuction'>
     <p>no current auction</p>

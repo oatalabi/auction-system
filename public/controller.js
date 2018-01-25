@@ -24,7 +24,20 @@ app.controller('AuctionCtrl', ['$scope', 'Auction', '$location', '$cookies', fun
     $uibModalInstance.dismiss('cancel');
   };
 
-}).controller('UserBoardCtrl', ['$scope', '$rootScope', 'Auction', '$cookies', '$uibModal', function($scope, $rootScope, Auction, $cookies, $uibModal) {
+}).controller('UserBoardCtrl', ['$scope', '$rootScope', 'Auction', '$cookies', '$uibModal', '$firebaseObject', function($scope, $rootScope, Auction, $cookies, $uibModal, $firebaseObject) {
+
+  var database = firebase.database();
+  var ref = firebase.database().ref("auction").child("items");
+  var obj = $firebaseObject(ref);
+  $scope.startAuction = false;
+
+  function init () {
+    database.ref("auction").child("items").on("value", function(snapshot){
+      $scope.currentBid = snapshot.val();
+    });
+  }
+  init();
+
   $scope.userDetails = JSON.parse($cookies.get('user')).data.data;
   var userId = $scope.userDetails.id;
 
@@ -35,18 +48,26 @@ app.controller('AuctionCtrl', ['$scope', 'Auction', '$location', '$cookies', fun
       console.log(err);
     });
   };
+
   $scope.auctionDialog = {
     quantity: 1,
-    minimumBid: 1
+    minimumBid: 1,
+    sellerId: $scope.userDetails.id,
+    sellerName: $scope.userDetails.username
   };
-  $rootScope.auctionDetails = {};
 
+  $rootScope.auctionDetails = {};
   $scope.auctionItem = function(type) {
+    if($scope.currentBid){
+      return alert('A bid is currently on going, try again later')
+    }
     $uibModal.open({
       templateUrl : '/partials/popup.html',
       controller : 'PopupCtrl',
       resolve : {
         auctionDialog: {
+          sellerId: $scope.userDetails.id,
+          sellerName: $scope.userDetails.username,
           quantity: $scope.auctionDialog.quantity,
           minimumBid: $scope.auctionDialog.minimumBid
         }
@@ -57,15 +78,32 @@ app.controller('AuctionCtrl', ['$scope', 'Auction', '$location', '$cookies', fun
         $rootScope.auctionDetails = {};
       }
       $rootScope.auctionDetails = {
+        // id: "213456",
         name: type,
         quantity : result.quantity,
-        minimumBid: result.minimumBid
+        minimumBid: result.minimumBid,
+        winningBid: result.minimumBid,
+        sellerId: $scope.userDetails.id,
+        sellername: $scope.userDetails.username
       }
+      Auction.registerBid($rootScope.auctionDetails);
+      database.ref("auction").child("items").on('value', function(snapshot) {
+        $scope.minBid = snapshot.val().minimumBid;
+      });
       $scope.initialBid = true;
     });
   };
 
-  $scope.startAuction = false;
+  $scope.placeBid = function(userBid) {
+    if(userBid < $scope.currentBid.winningBid){
+      alert('error bid cannot be less than the minimumBid');
+    } else {
+      Auction.updateBid(userBid);
+      database.ref("auction").child("items").on('value', function(snapshot) {
+        $scope.currentBid = snapshot.val();
+      });
+    }
+  };
 
   $scope.$watch('auctionDetails', function(newObj, oldObj) {
     if(Object.keys(newObj).length != 0){
@@ -73,18 +111,6 @@ app.controller('AuctionCtrl', ['$scope', 'Auction', '$location', '$cookies', fun
     }
   }, true);
 
-
-  $scope.placeBid = function() {
-    console.log($scope.userBid);
-    if($scope.userBid < $scope.auctionDialog.minimumBid){
-      alert('error bid cannot be less than the minimumBid');
-    }
-    console.log($scope.userBid);
-    $rootScope.auctionDetails.winningBid = $scope.userBid;
-    $scope.winningBid = true;
-    $scope.initialBid = false;
-
-    console.log($rootScope.auctionDetails);
-  }
+  // var firebaseObj = new Firebase("https://auction-game-e0f1e.firebaseio.com");
 
 }])

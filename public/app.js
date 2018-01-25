@@ -1,4 +1,4 @@
-var app = angular.module('AuctionApp', ['ngRoute', 'ngCookies', 'ui.bootstrap']);
+var app = angular.module('AuctionApp', ['ngRoute', 'ngCookies', 'ui.bootstrap', 'firebase']);
 
 app.config(function($routeProvider) {
 

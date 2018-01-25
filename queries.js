@@ -12,6 +12,7 @@ var db = pgp(connectionString);
 function getAllUsers(req, res, next) {
   db.any('select * from users')
     .then(function(data) {
+      console.log(data, '===================================')
       res.status(200).json({
         status: 'success',
         data: data,
@@ -81,6 +82,7 @@ function balanceUpdate(req, res, next) {
       return next(err);
     }
     if (user) {
+      console.log(user, 'user===========')
       var newSellerBalance = user.balance + parseInt(auctionItem.winningBid);
       db.none('UPDATE users SET balance = $1 WHERE id = $2', [newSellerBalance, user.id]);
       db.one('SELECT * FROM inventories WHERE user_id = ${sellerId}', {sellerId: user.id}, function(inventory, err) {
